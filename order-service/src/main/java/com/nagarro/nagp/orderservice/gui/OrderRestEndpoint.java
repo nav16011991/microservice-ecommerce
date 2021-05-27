@@ -24,45 +24,45 @@ public class OrderRestEndpoint {
         this.queryGateway = queryGateway;
     }
 
-    @PostMapping("/order")
+    @PostMapping
     public CompletableFuture<String> createOrder(@RequestHeader("user-id") String userId) {
         return createOrder(UUID.randomUUID().toString(), userId);
     }
 
-    @PostMapping("/order/{order-id}")
+    @PostMapping("/{order-id}")
     public CompletableFuture<String> createOrder(@PathVariable("order-id") String orderId,@RequestHeader("user-id") String userId) {
         return commandGateway.send(new CreateOrderCommand(orderId, userId));
     }
 
-    @PostMapping("/order/{order-id}/product/{product-id}")
+    @PostMapping("/{order-id}/product/{product-id}")
     public CompletableFuture<Void> addProduct(@PathVariable("order-id") String orderId,
                                               @PathVariable("product-id") String productId) {
         return commandGateway.send(new AddProductCommand(orderId, productId));
     }
 
-    @PostMapping("/order/{order-id}/product/{product-id}/increment")
+    @PostMapping("/{order-id}/product/{product-id}/increment")
     public CompletableFuture<Void> incrementProduct(@PathVariable("order-id") String orderId,
                                                     @PathVariable("product-id") String productId) {
         return commandGateway.send(new IncrementProductCountCommand(orderId, productId));
     }
 
-    @PostMapping("/order/{order-id}/product/{product-id}/decrement")
+    @PostMapping("/{order-id}/product/{product-id}/decrement")
     public CompletableFuture<Void> decrementProduct(@PathVariable("order-id") String orderId,
                                                     @PathVariable("product-id") String productId) {
         return commandGateway.send(new DecrementProductCountCommand(orderId, productId));
     }
 
-    @PostMapping("/order/{order-id}/confirm")
+    @PostMapping("/{order-id}/confirm")
     public CompletableFuture<Void> confirmOrder(@PathVariable("order-id") String orderId) {
         return commandGateway.send(new ConfirmOrderCommand(orderId));
     }
 
-    @GetMapping("/all-orders")
+    @GetMapping("/all")
     public CompletableFuture<List<Order>> findAllOrders() {
         return queryGateway.query(new FindAllOrderedProductsQuery(), ResponseTypes.multipleInstancesOf(Order.class));
     }
 
-    @GetMapping("/orders")
+
     public CompletableFuture<List<Order>> findAllOrders(@RequestHeader("user-id") String userId) {
         return queryGateway.query(new FindUserOrderedProductsQuery(userId), ResponseTypes.multipleInstancesOf(Order.class));
     }
