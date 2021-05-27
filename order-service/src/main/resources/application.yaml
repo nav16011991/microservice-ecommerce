@@ -4,6 +4,8 @@ spring:
 
 server:
   port: ${PORT:9003}
+  servlet:
+    context-path: /order
 
 eureka:
   client:

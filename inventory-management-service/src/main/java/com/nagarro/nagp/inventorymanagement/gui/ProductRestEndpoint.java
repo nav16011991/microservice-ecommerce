@@ -26,32 +26,32 @@ public class ProductRestEndpoint {
         this.queryGateway = queryGateway;
     }
 
-    @PostMapping("/product")
+    @PostMapping
     public CompletableFuture<String> createProduct() {
         return createProduct(UUID.randomUUID().toString());
     }
 
-    @PostMapping("/product/{product-id}")
+    @PostMapping("/{product-id}")
     public CompletableFuture<String> createProduct(@PathVariable("product-id") String productId) {
         return commandGateway.send(new CreateProductCommand(productId));
     }
 
-    @PostMapping("/product/{product-id}/add-unit/{unit}")
+    @PostMapping("/{product-id}/add-unit/{unit}")
     public CompletableFuture<String> addProduct(@PathVariable("product-id") String productId, @PathVariable("unit") Integer unit) {
         return commandGateway.send(new AddProductQuantityCommand(productId, unit));
     }
 
-    @PostMapping("/product/{product-id}/remove-unit/{unit}")
+    @PostMapping("/{product-id}/remove-unit/{unit}")
     public CompletableFuture<String> removeProduct(@PathVariable("product-id") String productId, @PathVariable("unit") Integer unit) {
         return commandGateway.send(new RemoveProductQuantityCommand(productId, unit));
     }
 
-    @GetMapping("/all-products")
+    @GetMapping("/all")
     public CompletableFuture<List<Product>> findAllOrders() {
         return queryGateway.query(new FindAllProductQuery(), ResponseTypes.multipleInstancesOf(Product.class));
     }
 
-    @GetMapping("/product")
+    @GetMapping
     public CompletableFuture<List<Product>> findAllOrders(@RequestHeader("product-id") String productId) {
         return queryGateway.query(new FindProductByIdQuery(productId), ResponseTypes.multipleInstancesOf(Product.class));
     }
