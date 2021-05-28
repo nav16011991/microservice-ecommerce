@@ -3,27 +3,6 @@ networks:
   microservice-ecommerce:
 
 services:
-  jaeger:
-    image: jaegertracing/all-in-one
-    networks:
-      - microservice-ecommerce
-    ports:
-      - 5775:5775/udp
-      - 6831:6831/udp
-      - 6832:6832/udp
-      - 5778:5778
-      - 16686:16686
-      - 14268:14268
-      - 14250:14250
-      - 9411:9411
-
-  discovery-service:
-    image: "naveenbhardwaj/discovery-service:1.0.0"
-    networks:
-      - microservice-ecommerce
-    ports:
-      - 8761:8761
-
   application-gateway:
     image: "naveenbhardwaj/application-gateway:1.0.0"
     environment:

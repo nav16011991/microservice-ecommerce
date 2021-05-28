@@ -3,3 +3,6 @@ eureka.:
     serviceUrl:
       defaultZone: http://discovery-service:8761/eureka/
 
+axon:
+  axonserver:
+    servers: ${AXON_SERVER:axonserver}
